@@ -20,18 +20,15 @@ class DashboardController extends AbstractDashboardController
     public function index(): Response
     {
         if ($this->isGranted('ROLE_ADMIN')) {
-            return $this->render('bundles/EasyAdminBundle/welcome.html.twig', [
-                'user' => $this->getUser(),
-            ]);
+
+            $url = $this->adminUrlGenerator
+                ->setController(ClientCrudController::class)
+                ->generateUrl();
+
+            return $this->redirect($url);
         } else {
             return $this->redirectToRoute('app_login');
         }
-
-        $url = $this->adminUrlGenerator
-            ->setController(ClientCrudController::class)
-            ->generateUrl();
-
-        return $this->redirect($url);
     }
 
     public function configureDashboard(): Dashboard
